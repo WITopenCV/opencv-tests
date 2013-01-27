@@ -25,7 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 Building with CMake on GNU/Linux
 -----------------------------------
-1. Clone the repository: `https://github.com/WITopenCV/opencv-tests`
+1. Clone the repository: `git clone https://github.com/WITopenCV/opencv-tests`
 2. Navigate to the newly cloned repository's directory: `cd opencv-tests`
 3. Run CMake: `cmake .`
 4. Run GNU Make: `make`
