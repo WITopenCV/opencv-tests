@@ -1,0 +1,15 @@
+CXXFLAGS =	-O2 -g -Wall -fmessage-length=0
+
+OBJS =		DisplayImage.o
+
+LIBS =		opencv_core opencv_imgproc opencv_highgui opencv_ml opencv_video opencv_features2d
+
+TARGET =	DisplayImage
+
+$(TARGET):	$(OBJS)
+	$(CXX) -o $(TARGET) $(OBJS) $(LIBS)
+
+all:	$(TARGET)
+
+clean:
+	rm -f $(OBJS) $(TARGET)

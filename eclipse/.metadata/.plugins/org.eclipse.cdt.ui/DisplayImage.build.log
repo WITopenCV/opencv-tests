@@ -1,0 +1,9 @@
+01:08:20 **** Build of configuration Default for project DisplayImage ****
+make all 
+Scanning dependencies of target DisplayImage
+[100%] Building CXX object DisplayImage/CMakeFiles/DisplayImage.dir/src/DisplayImage.cpp.o
+Linking CXX executable ../bin/DisplayImage
+[100%] Built target DisplayImage
+
+01:08:22 Build Finished (took 1s.618ms)
+
