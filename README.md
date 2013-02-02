@@ -30,8 +30,8 @@ Building with CMake on GNU/Linux
 3. Run CMake: `cmake .`
 4. Run GNU Make: `make`
 
-Run directions
+Run directions (GNU/Linux)
 -----------------------------------
 1. Navigate to the *bin/* directory: `cd bin/`
-2. Run one of the programs; read the source files to check for available command line arguments. Perhaps there will be a manual soon..?
-
+2. Run one of the programs; read the source files to check for available command line arguments.
+For example: `./DisplayImage ../DisplayImage/images/stone.jpg`
