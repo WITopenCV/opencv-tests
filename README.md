@@ -8,7 +8,7 @@ To set the standard for publishing OpenCV applications in the WIT
 OpenCV organization on GitHub while supplying some basic OpenCV
 usage examples
 
-License (see COPYING)
+License
 -----------------------------------
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
