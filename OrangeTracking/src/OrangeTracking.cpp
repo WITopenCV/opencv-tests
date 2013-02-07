@@ -6,57 +6,81 @@
 #include <opencv2/opencv.hpp>
 #include <opencv2/highgui/highgui.hpp>
 
+int lowerH=0;
+int lowerS=0;
+int lowerV=0;
+
+int upperH=180;
+int upperS=256;
+int upperV=256;
+
+//This function threshold the HSV image and create a binary image
 IplImage* GetThresholdedImage(IplImage* imgHSV){
-       IplImage* imgThresh=cvCreateImage(cvGetSize(imgHSV),IPL_DEPTH_8U, 1);
-       cvInRangeS(imgHSV, cvScalar(170,160,60), cvScalar(180,256,256), imgThresh);
-       return imgThresh;
+
+IplImage* imgThresh = cvCreateImage(cvGetSize(imgHSV), IPL_DEPTH_8U, 1);
+cvInRangeS(imgHSV, cvScalar(lowerH,lowerS,lowerV), cvScalar(upperH,upperS,upperV), imgThresh);
+
+return imgThresh;
+
 }
 
-int main(int argc, char** argv) {
-	// Define a capture handle
-	CvCapture* capture = 0;
+//This function create two windows and 6 trackbars for the "Ball" window
+void setwindowSettings(){
+cvNamedWindow("Video");
+cvNamedWindow("Ball");
 
-	// Assign the first camera to the capture handle
-	capture = cvCaptureFromCAM(0);
-	if (!capture) {
-		printf("Unable to hook camera.\n");
-		return -1;
-	}
+cvCreateTrackbar("LowerH", "Ball", &lowerH, 180, NULL);
+        cvCreateTrackbar("UpperH", "Ball", &upperH, 180, NULL);
 
-	// Define a handle for each capture frame
-	IplImage* frame = 0;
+cvCreateTrackbar("LowerS", "Ball", &lowerS, 256, NULL);
+        cvCreateTrackbar("UpperS", "Ball", &upperS, 256, NULL);
 
-	// Start display windows
-	cvNamedWindow("Raw"); // One for the raw video
-	cvNamedWindow("Tracking"); // And another for the actual processing
+cvCreateTrackbar("LowerV", "Ball", &lowerV, 256, NULL);
+        cvCreateTrackbar("UpperV", "Ball", &upperV, 256, NULL);
+}
 
-	// Capture and process frames
-	while(true) {
-		// Capture a frame
-		frame = cvQueryFrame(capture);
-		if (!frame) break;
+int main(){
+CvCapture* capture =0;
 
-		frame = cvCloneImage(frame);
-		cvSmooth(frame, frame, CV_GAUSSIAN, 3, 3); // Gaussian smooth
+capture = cvCaptureFromCAM(0);
+if(!capture){
+printf("Capture failure\n");
+return -1;
+}
 
-		// Convert the frame to an HSV image
-		IplImage* imgHSV = cvCreateImage(cvGetSize(frame), IPL_DEPTH_8U, 3);
-		cvCvtColor(frame, imgHSV, CV_BGR2HSV);
-		IplImage* imgThresh = GetThresholdedImage(imgHSV);
+        IplImage* frame=0;
 
-		cvSmooth(imgThresh, imgThresh, CV_GAUSSIAN, 3, 3); //smooth the binary image using Gaussian kernel
+setwindowSettings();
 
-		cvShowImage("Ball", imgThresh);
-		cvShowImage("Video", frame);
+//iterate through each frames of the video
+while(true){
 
-		// Clean up used images
-		cvReleaseImage(&imgHSV);
-		cvReleaseImage(&imgThresh);
-		cvReleaseImage(&frame);
+frame = cvQueryFrame(capture);
+if(!frame)  break;
+frame=cvCloneImage(frame);
 
-		// Wait 50mS
-		int c = cvWaitKey(10);
-		// If 'ESC' is pressed, break the loop
-		if ((char)c==27) break;
-	}
+IplImage* imgHSV = cvCreateImage(cvGetSize(frame), IPL_DEPTH_8U, 3);
+cvCvtColor(frame, imgHSV, CV_BGR2HSV); //Change the color format from BGR to HSV
+
+IplImage* imgThresh = GetThresholdedImage(imgHSV);
+
+cvShowImage("Ball", imgThresh);
+                cvShowImage("Video", frame);
+
+//Clean up used images
+cvReleaseImage(&imgHSV);
+cvReleaseImage(&imgThresh);
+cvReleaseImage(&frame);
+
+//Wait 80mS
+int c = cvWaitKey(80);
+//If 'ESC' is pressed, break the loop
+if((char)c==27 ) break;
+
+}
+
+cvDestroyAllWindows();
+cvReleaseCapture(&capture);
+
+       return 0;
 }
