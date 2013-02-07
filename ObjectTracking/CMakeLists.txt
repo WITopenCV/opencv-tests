@@ -1,5 +1,5 @@
-set(pName OrangeTracking)
-set(pSrcs src/OrangeTracking.cpp)
+set(pName ObjectTracking)
+set(pSrcs src/ObjectTracking.cpp)
 
 project(${pName})
 add_executable(${pName} ${pSrcs})
